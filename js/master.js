@@ -78,7 +78,7 @@ taskList.addEventListener('dblclick', function dltItem(itemLi){
 function relax() {
     Swal.fire({
         title: 'Relajate!',
-        text: 'No tene tareas pendientes',
+        text: 'No tenes tareas pendientes',
         imageUrl: 'https://i.gifer.com/20eJ.gif',
         imageWidth: 400,
         imageHeight: 200,
