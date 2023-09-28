@@ -1,0 +1,35 @@
+body{
+     
+    min-width: 500px;
+}
+#container{
+    background-image: url("../img/fondo-toDoList.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 120vh;
+    font-family: 'Dancing Script', cursive;
+}
+
+#title{
+    margin-left: 6vw;
+    padding-top: 10vw;
+    padding-bottom: 6px;
+    font-size: 20px;
+}
+li {
+    list-style: circle;
+  }
+  
+#list{
+    padding-left: 10vw;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 12px;
+}
+
+.done{
+    text-decoration: line-through;
+    text-indent: 20px;
+    transition: all .8s;
+  }
