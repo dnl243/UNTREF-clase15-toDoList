@@ -10,54 +10,51 @@ setTimeout(() => {
 }, 300);
 
 function loadTask(){
-    taskList.innerHTML='';//limpia la lista
-    if(listSaved === null){//si la lista guardada es nula
+    taskList.innerHTML='';
+    if(listSaved === null){
         relax();
-        init();//al inicio
-    }else{//sino
+    }else{
         listSaved.forEach(element => {
             toDo();
             taskList.innerHTML+=`
-            <li>${element}</li>`//toma la lista, itera los elementos y los agrega
+            <li>${element}</li>`
         });
-        init();//al inicio
     }
 }
 
 //  volver al inicio
 function init() {
-    taskInput.value = '';//limpia el input
-    taskInput.focus();//enfoca en el input
+    taskInput.value = '';
+    taskInput.focus();
 }
 
 // agregar tarea si no esta vacia o con espacios en blanco
 function addTask() {
-    if (taskInput.value === '' || taskInput.value.trim() === '') {// verifica si solo tiene espacios o esta vacio
-        alert('No puedes incluir una tarea vacia!!');//alerta que no puede continuar
-        init();    //al inicio
-    } else {//sino
-        let newTask = document.createElement('li');//crea un nuevo <li>
-        newTask.textContent = taskInput.value;//establece contenido de <li> = valor de la tarea
-        taskList.append(newTask);//agrega <li> a la lista <ul>
-        updateLocalStorage();//actualiza localStorage
-        init();    //al inicio
+    if (taskInput.value === '' || taskInput.value.trim() === '') {
+        doNot();
+    } else {
+        let newTask = document.createElement('li');
+        newTask.textContent = taskInput.value;
+        taskList.append(newTask);
+        updateLocalStorage();
+        init();
     };
 };
 
 // boton en escucha
-addButton.addEventListener('click', addTask);//pone en escucha al boton 'agregar'
-taskInput.addEventListener('keydown', function(evento){//pone en escucha al boton 'enter'
+addButton.addEventListener('click', addTask);
+taskInput.addEventListener('keypress',(evento) => {
     if(evento.key === 'Enter'){
-        addTask();//agregar tarea
+        addTask();
     }
 });
 
 function updateLocalStorage(){
-    if(listSaved === null){//si no hay array de tareas
-        listSaved = [];//crea un array
+    if(listSaved === null){
+        listSaved = [];
     };
-    listSaved.push(taskInput.value);//agrega la tarea al array
-    localStorage.setItem('list',JSON.stringify(listSaved));//convierte el array en string y lo guarda en 'list'
+    listSaved.push(taskInput.value);
+    localStorage.setItem('list',JSON.stringify(listSaved));
 }
 
 // tachar las tareas realizadas
@@ -66,13 +63,14 @@ taskList.addEventListener('click', (itemLi)=>
 
 // eliminarlas de la lista
 taskList.addEventListener('dblclick', function dltItem(itemLi){
-    let index = listSaved.indexOf(itemLi.target.textContent);//busca el indice del contenido del elemento en el array 
-    itemLi.target.remove();//borra el elemento de la lista (DOM)
-    listSaved.splice(index,1);//elimina el elemento en el array
-    localStorage.setItem('list',JSON.stringify(listSaved));//convierte el array en string y lo guarda en 'list'
-    if (listSaved.length === 0) {//verifica si la cantidad de elementos del array es 0
-        localStorage.removeItem('list');//borra la lista de localStorage
-      }
+    let index = listSaved.indexOf(itemLi.target.textContent); 
+    itemLi.target.remove();
+    listSaved.splice(index,1);
+    localStorage.setItem('list',JSON.stringify(listSaved));
+    if (listSaved.length === 0) {
+        localStorage.removeItem('list');
+      };
+    init();  
 });
    
 function relax() {
@@ -83,8 +81,12 @@ function relax() {
         imageWidth: 400,
         imageHeight: 200,
         imageAlt: 'Relax gif',
-    })
-}
+    }).then((result) => {
+        if (result.isConfirmed) {
+          init();
+        }
+      })
+};
 
 function toDo() {
     Swal.fire({
@@ -94,5 +96,27 @@ function toDo() {
         imageWidth: 400,
         imageHeight: 200,
         imageAlt: 'Working gif',
-    })
-}
+    }).then((result) => {
+        if (result.isConfirmed) {
+          init();
+        }
+      })
+};
+
+function doNot() {
+    Swal.fire({
+        title: 'Negativo!',
+        text: 'No puedes incluir una tarea vacia!',
+        imageUrl: 'https://la100.cienradios.com/resizer/VjobmBwl_SjV4H5MBmJHllwh6OU=/300x0/arc-photo-radiomitre/arc2-prod/public/5EF3CS7XNNBELBGCCRKGFTWAAY.jpg',
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: 'Dog with shame',
+    }).then((result) => {
+        if (result.isConfirmed) {
+          init();
+        }
+      })
+};
+
+
+
